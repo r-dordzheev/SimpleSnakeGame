@@ -122,6 +122,7 @@
         public static int PlayerX {
             get {
                 return playerX;
+                Console.WriteLine("aboba");
             }
             set {
                 if (value > Display.SizeX || value <= 0)
