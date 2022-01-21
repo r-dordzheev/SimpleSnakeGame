@@ -102,24 +102,25 @@
         }
 
     }
-    public static class Player {
-        internal static bool playerIsCreated { get; private set; } = false;
-        static int playerX = 2;
-        static int playerY = 2;
+    public class Player {
+        int playerX = 2;
+        int playerY = 2;
         private static char playerChar = '@';
+        public static bool gameOver = false;
 
+        /*
         public static char PlayerChar {
             get {
                 return playerChar;
             }
             set {
-                Display.DisArr[playerY - 1, playerX - 1] = value;
+                Display.DisArr[b.playerY - 1, playerX - 1] = value;
                 playerChar = value;
             }
-        }
+        }*/
 
 
-        public static int PlayerX {
+        public int PlayerX {
             get {
                 return playerX;
             }
@@ -128,18 +129,14 @@
                 {
                     throw new DisplaySizeException("X игрока находится вне дисплея");
                 }
-                else if (playerIsCreated) {
+                else {
                     Display.DisArr[playerY - 1, playerX - 1] = Display.VoidChar;
                     Display.DisArr[playerY - 1, value - 1] = playerChar;
                     playerX = value;
                 }
-                else
-                {
-                    playerX = value;
-                }
             }
         }
-        public static int PlayerY {
+        public int PlayerY {
             get {
                 return playerY;
             }
@@ -148,47 +145,27 @@
                 {
                     throw new DisplaySizeException("Y игрока находится вне дисплея");
                 }
-                else if (playerIsCreated) {
+                else {
                     Display.DisArr[playerY - 1, playerX - 1] = Display.VoidChar;
                     Display.DisArr[value - 1, playerX - 1] = playerChar;
                     playerY = value;
                 }
-                else
-                {
-                    playerY = value;
-                }
             }
         }
-
-        public static void Create() {
-            if (playerIsCreated) {
-                throw new PlayerIsCreatedException();
-            }
-            playerIsCreated = true;
-            Display.DisArr[playerY - 1, playerX - 1] = playerChar;
-        }
-        public static void Create(int X, int Y) {
-            if (playerIsCreated) {
-                throw new PlayerIsCreatedException();
-            }
-            PlayerY = Y;
-            PlayerX = X;
-            playerIsCreated = true;
-            Display.DisArr[playerX - 1, playerY - 1] = playerChar;
-        }
-        static Player() {
+        public Player(int Y, int X) {
             if (Display.DisArr == null) {
                 throw new DisplayIsNullException("Нельзя обратиться к игроку без создания дисплея");
             }
+            PlayerY = Y;
+            PlayerX = X;
+            Display.DisArr[playerX - 1, PlayerY - 1] = playerChar;
         }
-    }
-    public static class PlayerMovement {
-        public static bool gameOver = false;
-        public static void Up()
+
+        public void Up()
         {
-            if (Player.PlayerY - 2 >= 0)
+            if (PlayerY - 2 >= 0)
             {
-                Player.PlayerY--;
+                PlayerY--;
                 Display.Refresh();
             }
             else
@@ -198,11 +175,11 @@
             }
 
         }
-        public static void Down()
+        public void Down()
         {
-            if (Player.PlayerY + 1 <= Display.SizeY)
+            if (PlayerY + 1 <= Display.SizeY)
             {
-                Player.PlayerY++;
+                PlayerY++;
                 Display.Refresh();
             }
             else
@@ -212,11 +189,11 @@
             }
 
         }
-        public static void Left()
+        public void Left()
         {
-            if (Player.PlayerX - 2 >= 0)
+            if (PlayerX - 2 >= 0)
             {
-                Player.PlayerX--;
+                PlayerX--;
                 Display.Refresh();
             }
             else
@@ -226,11 +203,11 @@
             }
 
         }
-        public static void Right()
+        public void Right()
         {
-            if (Player.PlayerX + 1 <= Display.SizeY)
+            if (PlayerX + 1 <= Display.SizeY)
             {
-                Player.PlayerX++;
+                PlayerX++;
                 Display.Refresh();
             }
             else
@@ -239,12 +216,6 @@
                 Display.Refresh();
             }
 
-        }
-        static PlayerMovement()
-        {
-            if (!Player.playerIsCreated) {
-                throw new PlayerIsCreatedException("Для обращения к классу PlayerMovement, необходимо создать Player");
-            }
         }
     }
 
@@ -264,8 +235,9 @@
         public DisplayIsNullException() : this("Массив дисплея является null. Забыли создать?") { }
         public DisplayIsNullException(string message) : base(message) { }
     }
+    /*
     class PlayerIsCreatedException : Exception {
         public PlayerIsCreatedException() : this("Попытка создать игрока при его существовании") { }
         public PlayerIsCreatedException(string message) : base(message) { }
-    }
+    }*/
 }

@@ -1,8 +1,8 @@
 ﻿using GameManager;
 
 Display.Create(10,10);
-Player.Create(5, 5);
 Display.VoidChar = '.';
+Player mainPlayer = new(5,5);
 Display.Refresh();
 
 System.Timers.Timer aTimer = new System.Timers.Timer(1000);
@@ -42,19 +42,19 @@ while (isOn == true)
 void Move(Object source, System.Timers.ElapsedEventArgs e) {
     switch (Direction) {
         case Directions.Up:
-            PlayerMovement.Up();
+            mainPlayer.Up();
             break;
         case Directions.Down:
-            PlayerMovement.Down();
+            mainPlayer.Down();
             break;
         case Directions.Left:
-            PlayerMovement.Left();
+            mainPlayer.Left();
             break;
         case Directions.Right:
-            PlayerMovement.Right();
+            mainPlayer.Right();
             break;
     }
-    if (PlayerMovement.gameOver)
+    if (Player.gameOver)
     {
         aTimer.Enabled = false;
         isOn = false;
