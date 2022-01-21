@@ -218,10 +218,17 @@
 
         }
     }
+    //public class Trail : Player {
+    //}
 
 
-
-
+    public enum Directions
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
 
     class DisplaySizeException : Exception {
         public DisplaySizeException() : this("Невалидный размер дисплея (Дисплей должен быть минимум 2X2)") { }

@@ -63,10 +63,3 @@ void Move(Object source, System.Timers.ElapsedEventArgs e) {
         Console.WriteLine("Game Over! Вы врезались в стену :(");
     }
 }
-
-enum Directions {
-    Up,
-    Down,
-    Left,
-    Right
-}
