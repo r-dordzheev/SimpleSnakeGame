@@ -102,11 +102,21 @@
         }
 
     }
-    public class Player {
+    public class Player
+    {
         int playerX = 2;
         int playerY = 2;
-        private static char playerChar = '@';
+        public int predX;
+        public int predY;
+        static char playerChar = '@';
         public static bool gameOver = false;
+        public Directions NowDirection { get { return nowDirection; } private set {
+                pastDirection = nowDirection;
+                nowDirection = value;
+            } 
+        }
+        Directions nowDirection = Directions.Up;
+        public Directions pastDirection { get; private set; } = new Directions();
 
         /*
         public static char PlayerChar {
@@ -118,47 +128,61 @@
                 playerChar = value;
             }
         }*/
+        
 
-
-        public int PlayerX {
-            get {
+        public int PlayerX
+        {
+            get
+            {
                 return playerX;
             }
-            set {
+            set
+            {
                 if (value > Display.SizeX || value <= 0)
                 {
                     throw new DisplaySizeException("X игрока находится вне дисплея");
                 }
-                else {
+                else
+                {
+                    predX = playerX;
                     Display.DisArr[playerY - 1, playerX - 1] = Display.VoidChar;
                     Display.DisArr[playerY - 1, value - 1] = playerChar;
                     playerX = value;
                 }
             }
         }
-        public int PlayerY {
-            get {
+        public int PlayerY
+        {
+            get
+            {
                 return playerY;
             }
-            set {
+            set
+            {
                 if (value > Display.SizeY || value <= 0)
                 {
                     throw new DisplaySizeException("Y игрока находится вне дисплея");
                 }
-                else {
+                else
+                {
+                    predY = playerY;
                     Display.DisArr[playerY - 1, playerX - 1] = Display.VoidChar;
                     Display.DisArr[value - 1, playerX - 1] = playerChar;
                     playerY = value;
                 }
             }
         }
-        public Player(int Y, int X) {
-            if (Display.DisArr == null) {
+        public Player(int Y, int X)
+        {
+            if (Display.DisArr == null)
+            {
                 throw new DisplayIsNullException("Нельзя обратиться к игроку без создания дисплея");
             }
             PlayerY = Y;
             PlayerX = X;
-            Display.DisArr[playerX - 1, PlayerY - 1] = playerChar;
+            predY = Y;
+            predX = X;
+            Display.DisArr[playerY - 1, PlayerX - 1] = playerChar;
         }
 
         public void Up()
@@ -166,6 +190,7 @@
             if (PlayerY - 2 >= 0)
             {
                 PlayerY--;
+                NowDirection = Directions.Up;
                 Display.Refresh();
             }
             else
@@ -180,6 +205,7 @@
             if (PlayerY + 1 <= Display.SizeY)
             {
                 PlayerY++;
+                NowDirection = Directions.Down;
                 Display.Refresh();
             }
             else
@@ -194,6 +220,7 @@
             if (PlayerX - 2 >= 0)
             {
                 PlayerX--;
+                NowDirection = Directions.Left;
                 Display.Refresh();
             }
             else
@@ -208,6 +235,7 @@
             if (PlayerX + 1 <= Display.SizeY)
             {
                 PlayerX++;
+                NowDirection = Directions.Right;
                 Display.Refresh();
             }
             else
@@ -218,8 +246,6 @@
 
         }
     }
-    //public class Trail : Player {
-    //}
 
 
     public enum Directions
