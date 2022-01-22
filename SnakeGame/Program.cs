@@ -4,7 +4,7 @@ List<Player> trailList = new List<Player>();
 
 Display.Create(10,10);
 Display.VoidChar = '.';
-trailList.Add(new(7,5)); // trailList[0] означает голову нашего персонажа
+trailList.Add(new(7,5)); // trailList[0] означает голову персонажа
 trailList.Add(new(8,5));
 trailList.Add(new(9,5));
 Display.Refresh();
@@ -45,15 +45,15 @@ while (isOn == true)
     }
     
 }
-void MoveTrail() {
-    for (int i = 1; i < trailList.Count; i++)
+void MoveTrail(List<Player> tList) {
+    for (int i = 1; i < tList.Count; i++)
     {
-        Move(trailList[i], trailList[i - 1].pastDirection);
+        Move(tList[i], tList[i - 1].pastDirection);
     }
 }
 void TimerElapsed(Object source, System.Timers.ElapsedEventArgs e) {
     Move(trailList[0], direction);
-    MoveTrail();
+    MoveTrail(trailList);
     if (Player.gameOver)
     {
         aTimer.Enabled = false;
@@ -78,6 +78,22 @@ void Move(Player player, Directions dir) {
             break;
         case Directions.Right:
             player.Right();
+            break;
+    }
+}
+void AddTrail(List<Player> tList) {
+    switch (tList[tList.Count - 1].NowDirection) {
+        case Directions.Up:
+            tList.Add(new(tList[tList.Count - 1].PlayerY + 1, tList[tList.Count - 1].PlayerX));
+            break;
+        case Directions.Down:
+            tList.Add(new(tList[tList.Count - 1].PlayerY - 1, tList[tList.Count - 1].PlayerX));
+            break;
+        case Directions.Left:
+            tList.Add(new(tList[tList.Count - 1].PlayerY, tList[tList.Count - 1].PlayerX + 1));
+            break;
+        case Directions.Right:
+            tList.Add(new(tList[tList.Count - 1].PlayerY, tList[tList.Count - 1].PlayerX - 1));
             break;
     }
 }
