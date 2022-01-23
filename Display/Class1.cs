@@ -109,7 +109,7 @@
         public int predX;
         public int predY;
         static char playerChar = '@';
-        public static bool gameOver = false;
+        public bool obstacleOnThisCell = false;
         public Directions NowDirection { get { return nowDirection; } private set {
                 pastDirection = nowDirection;
                 nowDirection = value;
@@ -189,14 +189,20 @@
         {
             if (PlayerY - 2 >= 0)
             {
-                PlayerY--;
-                NowDirection = Directions.Up;
-                Display.Refresh();
+                if (Display.DisArr[playerY - 2, PlayerX - 1] != playerChar)
+                {
+                    PlayerY--;
+                    NowDirection = Directions.Up;
+                    Display.Refresh();
+                }
+                else
+                {
+                    obstacleOnThisCell = true;
+                }
             }
             else
             {
-                gameOver = true;
-                Display.Refresh();
+                obstacleOnThisCell = true;
             }
 
         }
@@ -204,14 +210,20 @@
         {
             if (PlayerY + 1 <= Display.SizeY)
             {
-                PlayerY++;
-                NowDirection = Directions.Down;
-                Display.Refresh();
+                if (Display.DisArr[playerY, PlayerX - 1] != playerChar)
+                {
+                    PlayerY++;
+                    NowDirection = Directions.Down;
+                    Display.Refresh();
+                }
+                else
+                {
+                    obstacleOnThisCell = true;
+                }
             }
             else
             {
-                gameOver = true;
-                Display.Refresh();
+                obstacleOnThisCell = true;
             }
 
         }
@@ -219,14 +231,20 @@
         {
             if (PlayerX - 2 >= 0)
             {
-                PlayerX--;
-                NowDirection = Directions.Left;
-                Display.Refresh();
+                if (Display.DisArr[playerY - 1, PlayerX - 2] != playerChar)
+                {
+                    PlayerX--;
+                    NowDirection = Directions.Left;
+                    Display.Refresh();
+                }
+                else
+                {
+                    obstacleOnThisCell = true;
+                }
             }
             else
             {
-                gameOver = true;
-                Display.Refresh();
+                obstacleOnThisCell = true;
             }
 
         }
@@ -234,19 +252,24 @@
         {
             if (PlayerX + 1 <= Display.SizeY)
             {
-                PlayerX++;
-                NowDirection = Directions.Right;
-                Display.Refresh();
+                if (Display.DisArr[playerY - 1, PlayerX] != playerChar)
+                {
+                    PlayerX++;
+                    NowDirection = Directions.Right;
+                    Display.Refresh();
+                }
+                else
+                {
+                    obstacleOnThisCell = true;
+                }
             }
             else
             {
-                gameOver = true;
-                Display.Refresh();
+                obstacleOnThisCell = true;
             }
 
         }
     }
-
 
     public enum Directions
     {

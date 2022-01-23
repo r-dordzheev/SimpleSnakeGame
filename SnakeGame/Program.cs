@@ -5,8 +5,9 @@ List<Player> trailList = new List<Player>();
 Display.Create(10,10);
 Display.VoidChar = '.';
 trailList.Add(new(7,5)); // trailList[0] означает голову персонажа
-trailList.Add(new(8,5));
-trailList.Add(new(9,5));
+AddTrail(trailList);
+AddTrail(trailList);
+AddTrail(trailList);
 Display.Refresh();
 
 System.Timers.Timer aTimer = new System.Timers.Timer(1000);
@@ -53,15 +54,16 @@ void MoveTrail(List<Player> tList) {
 }
 void TimerElapsed(Object source, System.Timers.ElapsedEventArgs e) {
     Move(trailList[0], direction);
-    MoveTrail(trailList);
-    if (Player.gameOver)
+    if (trailList[0].obstacleOnThisCell)
     {
         aTimer.Enabled = false;
         isOn = false;
         aTimer.AutoReset = false;
         Console.Clear();
-        Console.WriteLine("Game Over! Вы врезались в стену :(");
+        Console.WriteLine("Game Over! :(");
+        return;
     }
+    MoveTrail(trailList);
 }
 
 void Move(Player player, Directions dir) {
