@@ -2,12 +2,10 @@
 
 List<Player> trailList = new List<Player>();
 
-Display.Create(10,10);
 Display.VoidChar = '.';
+Display.Create(10,10);
 trailList.Add(new(7,5)); // trailList[0] означает голову персонажа
-AddTrail(trailList);
-AddTrail(trailList);
-AddTrail(trailList);
+Apple.Add();
 Display.Refresh();
 
 System.Timers.Timer aTimer = new System.Timers.Timer(1000);
@@ -64,6 +62,9 @@ void TimerElapsed(Object source, System.Timers.ElapsedEventArgs e) {
         return;
     }
     MoveTrail(trailList);
+    Apple.TryCollect(trailList[0]);
+    if (Apple.collected) AddTrail(trailList);
+    Display.Refresh();
 }
 
 void Move(Player player, Directions dir) {
