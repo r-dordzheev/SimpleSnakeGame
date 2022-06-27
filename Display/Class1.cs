@@ -302,6 +302,7 @@
             Display.DisArr[availableNums[t - 1][0], availableNums[t - 1][1]] = AppleChar;
             appleList.Add(new int[2] { availableNums[t-1][0], availableNums[t-1][1]});
         }
+        /*
         public static void Collect(int index, bool addPoints = true)
         {
             if (appleList.Count == 0)
@@ -349,7 +350,7 @@
                 Add();
             }
             collected = true;
-        }
+        }*/
         public static void TryCollect(Player player, bool addPoints = true) {
             if (appleList.Count == 0)
             {
@@ -371,7 +372,6 @@
             {
                 return;
             }
-            Display.DisArr[appleList[removeIndex][0], appleList[removeIndex][1]] = Player.playerChar;
             appleList.RemoveAt(removeIndex);
             if (addPoints)
             {
@@ -395,7 +395,7 @@
     }
 
     class DisplayIsFullException : Exception {
-        public DisplayIsFullException() : this("Дисплей не имеет свободных мест для вставки нового юнита") { }
+        public DisplayIsFullException() : this("Дисплей не имеет свободных мест для вставки нового элемента") { }
         public DisplayIsFullException(string message) : base(message) { }
     }
     class DisplaySizeException : Exception {
@@ -410,9 +410,4 @@
         public DisplayIsNullException() : this("Массив дисплея является null. Забыли создать?") { }
         public DisplayIsNullException(string message) : base(message) { }
     }
-    /*
-    class PlayerIsCreatedException : Exception {
-        public PlayerIsCreatedException() : this("Попытка создать игрока при его существовании") { }
-        public PlayerIsCreatedException(string message) : base(message) { }
-    }*/
 }

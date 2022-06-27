@@ -20,29 +20,7 @@ aTimer.Elapsed += TimerElapsed;
 aTimer.AutoReset = true;
 while (isOn == true)
 {
-    switch (Console.ReadKey(true).Key)
-    {
-        case ConsoleKey.W:
-            direction = Directions.Up;
-            break;
-        case ConsoleKey.S:
-            direction = Directions.Down;
-            break;
-        case ConsoleKey.A:
-            direction = Directions.Left;
-            break;
-        case ConsoleKey.D:
-            direction = Directions.Right;
-            break;
-        case ConsoleKey.E:
-            aTimer.Enabled = false;
-            aTimer.AutoReset = false;
-            isOn = false;
-            break;
-        default:
-            break;
-    }
-    
+    InputHandler();
 }
 void MoveTrail(List<Player> tList) {
     for (int i = 1; i < tList.Count; i++)
@@ -100,3 +78,31 @@ void AddTrail(List<Player> tList) {
             break;
     }
 }
+void InputHandler() 
+{
+    switch (Console.ReadKey(true).Key)
+    {
+        case ConsoleKey.W:
+            direction = Directions.Up;
+            break;
+        case ConsoleKey.S:
+            direction = Directions.Down;
+            break;
+        case ConsoleKey.A:
+            direction = Directions.Left;
+            break;
+        case ConsoleKey.D:
+            direction = Directions.Right;
+            break;
+        case ConsoleKey.R:
+            AddTrail(trailList);
+            break;
+        case ConsoleKey.E:
+            aTimer.Enabled = false;
+            aTimer.AutoReset = false;
+            isOn = false;
+            break;
+        default:
+            break;
+    }
+} 
