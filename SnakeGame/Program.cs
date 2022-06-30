@@ -4,7 +4,7 @@ List<Player> trailList = new List<Player>();
 
 Display.VoidChar = '.';
 Display.Create(10,10);
-trailList.Add(new(7,5)); // trailList[0] означает голову персонажа
+trailList.Add(new(7,5)); // trailList[0] is head of snake
 Apple.Add();
 Display.Refresh();
 

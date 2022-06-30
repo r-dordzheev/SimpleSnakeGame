@@ -2,10 +2,14 @@
 {
     public static class Display
     {
-        public static char[,] DisArr { get;  internal set; } = null;
+        public static char[,]? DisArr { get;  internal set; }
         static int sizeX = 5;
         static int sizeY = 5;
         static char voidChar = '#';
+
+        /// <summary>
+        /// Represent a symbol that use to show void in a display
+        /// </summary>
         public static char VoidChar {
             get {
                 return voidChar;
@@ -64,6 +68,10 @@
             }
         }
 
+        /// <summary>
+        /// Creates display and fill it with void chars
+        /// </summary>
+        /// <exception cref="DisplayIsCreatedException"></exception>
         public static void Create() {
             if (DisArr != null) {
                 throw new DisplayIsCreatedException();
@@ -77,6 +85,12 @@
                 }
             }
         }
+        /// <summary>
+        /// Creates display and fill it with void chars
+        /// </summary>
+        /// <param name="X">Size of display in X</param>
+        /// <param name="Y">Size of display in Y</param>
+        /// <exception cref="DisplayIsCreatedException"></exception>
         public static void Create(int X, int Y)  {
             if (DisArr != null)
             {
@@ -94,6 +108,11 @@
             }
 
         }
+
+        /// <summary>
+        /// Clears console and write new DisArr instead
+        /// </summary>
+        /// <exception cref="DisplayIsNullException"></exception>
         public static void Refresh() {
             if (DisArr == null) {
                 throw new DisplayIsNullException();
@@ -110,10 +129,14 @@
         }
 
     }
+
     public class Player
     {
         int playerX = 2;
         int playerY = 2;
+        /// <summary>
+        /// Represent the player char that will be displayed
+        /// </summary>
         public static char playerChar { get; private set; } = '@';
         public bool obstacleOnThisCell = false;
         public Directions NowDirection { get { return nowDirection; } private set {
@@ -135,7 +158,9 @@
             }
         }*/
         
-
+        /// <summary>
+        /// Represent the player X in DisArr
+        /// </summary>
         public int PlayerX
         {
             get
@@ -146,7 +171,7 @@
             {
                 if (value > Display.SizeX || value <= 0)
                 {
-                    throw new DisplaySizeException("X игрока находится вне дисплея");
+                    throw new DisplaySizeException("Player's X is outside of Display");
                 }
                 else
                 {
@@ -156,6 +181,9 @@
                 }
             }
         }
+        /// <summary>
+        /// Represent the Player Y in DisArr
+        /// </summary>
         public int PlayerY
         {
             get
@@ -166,7 +194,7 @@
             {
                 if (value > Display.SizeY || value <= 0)
                 {
-                    throw new DisplaySizeException("Y игрока находится вне дисплея");
+                    throw new DisplaySizeException("Player's Y is outside of Display");
                 }
                 else
                 {
@@ -180,13 +208,15 @@
         {
             if (Display.DisArr == null)
             {
-                throw new DisplayIsNullException("Нельзя обратиться к игроку без создания дисплея");
+                throw new DisplayIsNullException("You cant create player object without creating a display");
             }
             PlayerY = Y;
             PlayerX = X;
             Display.DisArr[playerY - 1, PlayerX - 1] = playerChar;
         }
-
+        /// <summary>
+        /// Moves player by 1 in up direction
+        /// </summary>
         public void Up()
         {
             if (PlayerY - 2 >= 0)
@@ -207,6 +237,9 @@
             }
 
         }
+        /// <summary>
+        /// Moves player by 1 in down direction
+        /// </summary>
         public void Down()
         {
             if (PlayerY + 1 <= Display.SizeY)
@@ -227,6 +260,9 @@
             }
 
         }
+        /// <summary>
+        /// Moves player by 1 in left direction
+        /// </summary>
         public void Left()
         {
             if (PlayerX - 2 >= 0)
@@ -247,6 +283,9 @@
             }
 
         }
+        /// <summary>
+        /// Moves player by 1 in right direction
+        /// </summary>
         public void Right()
         {
             if (PlayerX + 1 <= Display.SizeY)
@@ -283,6 +322,10 @@
             }
             Points = 0;
         }
+        /// <summary>
+        /// Creates apple in DisArr
+        /// </summary>
+        /// <exception cref="DisplayIsFullException"></exception>
         public static void Add()
         {
             List<int[]> availableNums = new();
@@ -307,11 +350,11 @@
         {
             if (appleList.Count == 0)
             {
-                throw new AppleException("Массив appleList пустой");
+                throw new AppleException("appleList array is empty");
             }
             collected = false;
             if (index < 0 || index >= appleList.Count) {
-                throw new AppleException($"В массиве appleList не существует элемента с индексом {index}");
+                throw new AppleException($"appleList array doesnt have element with index {index}");
             }
             Display.DisArr[appleList[index][0], appleList[index][1]] = Display.VoidChar;
             appleList.RemoveAt(index);
@@ -325,7 +368,7 @@
         public static void Collect(int Y, int X, bool addPoints = true) {
             if (appleList.Count == 0)
             {
-                throw new AppleException("Массив appleList пустой");
+                throw new AppleException("appleList array is empty");
             }
             bool thereIs = false;
             collected = false;
@@ -340,7 +383,7 @@
             }
             if (thereIs == false)
             {
-                throw new AppleException($"В массиве appleList не существует элемента с Y {Y} X {X}");
+                throw new AppleException($"appleList array doesnt have element with Y {Y} X {X}");
             }
             Display.DisArr[appleList[removeIndex][0], appleList[removeIndex][1]] = Display.VoidChar;
             appleList.RemoveAt(removeIndex);
@@ -351,10 +394,16 @@
             }
             collected = true;
         }*/
+        /// <summary>
+        /// Checks if player is on apple position
+        /// </summary>
+        /// <param name="player">Player position to check</param>
+        /// <param name="addPoints">True if you need to score points</param>
+        /// <exception cref="AppleException"></exception>
         public static void TryCollect(Player player, bool addPoints = true) {
             if (appleList.Count == 0)
             {
-                throw new AppleException("Массив appleList пустой");
+                throw new AppleException("appleList array is empty");
             }
             bool thereIs = false;
             collected = false;
@@ -382,10 +431,13 @@
 
         }
         public class AppleException : Exception {
-            public AppleException() : this("Исключение в классе Apple") { }
+            public AppleException() : this("Exception in apple class") { }
             public AppleException(string message) : base(message) { }
         }
     }
+    /// <summary>
+    /// Represent directions
+    /// </summary>
         public enum Directions
     {
         Up,
@@ -395,19 +447,19 @@
     }
 
     class DisplayIsFullException : Exception {
-        public DisplayIsFullException() : this("Дисплей не имеет свободных мест для вставки нового элемента") { }
+        public DisplayIsFullException() : this("Display dont have enough free spaces to add new element") { }
         public DisplayIsFullException(string message) : base(message) { }
     }
     class DisplaySizeException : Exception {
-        public DisplaySizeException() : this("Невалидный размер дисплея (Дисплей должен быть минимум 2X2)") { }
+        public DisplaySizeException() : this("Invalid display size (Display must be at least 2X2)") { }
         public DisplaySizeException(string message) : base(message) { }
     }
     class DisplayIsCreatedException : Exception {
-        public DisplayIsCreatedException() : this("Попытка создать дисплей после его создания"){ }
+        public DisplayIsCreatedException() : this("You can create display only once"){ }
         public DisplayIsCreatedException(string message) : base(message) { }
     }
     class DisplayIsNullException : Exception {
-        public DisplayIsNullException() : this("Массив дисплея является null. Забыли создать?") { }
+        public DisplayIsNullException() : this("Display's array is null") { }
         public DisplayIsNullException(string message) : base(message) { }
     }
 }
